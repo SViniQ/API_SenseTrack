@@ -1,6 +1,8 @@
 # 🌡️ SenseTrack API
 
-API desenvolvida em Python utilizando FastAPI para registro, análise e consulta de dados de temperatura e umidade provenientes de sensores (ex: DHT22/ESP32). Os dados são armazenados em um banco de dados MongoDB e analisados por uma árvore de decisão para fornecer recomendações automáticas.
+API desenvolvida em Python utilizando FastAPI para registro, análise e consulta de dados de temperatura e umidade provenientes de sensores (ex: DHT22/ESP32). 
+
+Os dados são armazenados em um banco de dados MongoDB e analisados por uma árvore de decisão para fornecer recomendações automáticas.
 
 ---
 
