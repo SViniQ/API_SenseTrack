@@ -10,9 +10,9 @@ from datetime import datetime
 app = FastAPI()
 
 # Conexão com o banco de dados MongoDB usando uma string de conexão
-client = MongoClient("mongodb+srv://API_MONGO:30A20b10c@sensetrackdatabase.1pds1no.mongodb.net/")
-db = client["database_project_sensetrack"]  # Seleciona o banco de dados
-colecao = db["sensores"]  # Seleciona a coleção de sensores
+client = MongoClient("")
+db = client[""]  # Seleciona o banco de dados
+colecao = db[""]  # Seleciona a coleção de sensores
 
 # Define o modelo de dados para leitura dos sensores usando Pydantic
 class Leitura(BaseModel):
