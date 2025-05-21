@@ -56,26 +56,30 @@ raiz.direita = Node(27, "Temperatura aumentando. É recomendável prestar atenç
 raiz.direita.direita = Node(29, "Temperatura muito alta. Recomenda-se ajustar a temperatura geral dos ares-condicionados.")
 
 # Endpoint para registrar uma nova leitura de temperatura e umidade
-@app.post("/registrar")
-async def registrar(leitura: Leitura):
+@app.post("/registrar/{id_sensor}")
+async def registrar(id_sensor: str, leitura: Leitura):
     try:
-        timestamp = datetime.now().isoformat()  # Gera timestamp atual
+        timestamp = datetime.now().isoformat()
         dados = {
+            "id_sensor": id_sensor,
             "temperatura": leitura.temperatura,
             "umidade": leitura.umidade,
             "timestamp": timestamp
         }
-        colecao.insert_one(dados)  # Insere os dados no MongoDB
-        return {"status": "ok", "salvo_em": timestamp}
+        colecao.insert_one(dados)
+        return {"status": "ok", "sensor": id_sensor, "salvo_em": timestamp}
     except Exception as e:
         return {"status": "erro", "mensagem": str(e)}
 
 # Endpoint para listar todos os dados registrados no banco de dados
-@app.get("/dados", response_model=List[dict])
-async def get_dados():
-    dados = list(colecao.find())  # Busca todos os documentos
-    dados_serializados = [serialize_document(doc) for doc in dados]  # Serializa os documentos
-    return dados_serializados
+@app.get("/dados/{id_sensor}", response_model=List[dict])
+async def get_dados_por_sensor(id_sensor: str):
+    try:
+        dados = list(colecao.find({"id_sensor": id_sensor}))
+        dados_serializados = [serialize_document(doc) for doc in dados]
+        return dados_serializados
+    except Exception as e:
+        return [{"erro": str(e)}]
 
 # Endpoint para analisar a temperatura recebida e retornar uma mensagem baseada na árvore de decisão
 @app.post("/analisar")
